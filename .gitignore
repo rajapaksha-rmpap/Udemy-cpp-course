@@ -1,0 +1,8 @@
+# ignore everything
+*
+# not .cpp and .md (note) files
+!*/
+!*.cpp
+!*.md
+!/.gitignore
+!README.md
