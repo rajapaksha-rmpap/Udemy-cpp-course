@@ -34,5 +34,9 @@ int main() {
     cout << "new value of p is " << p << endl; // 0
 
 
+    // -------------- dereferencing pointers --------------
+    
+
+
     return 0;
 }
