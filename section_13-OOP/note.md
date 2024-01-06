@@ -93,3 +93,102 @@
 ```
 - Note here, we don't have to spcifically provide `name` as an argument to the function `talk` since the variable `name` is available in the immediately above scope. 
 
+## Part 4 - Class Members Access Modifiers
+
+- There are 3 main basic access modifiers: 
+> - `public` - accessible everywhere
+> - `private` - accesssible only be members and *friends* of the class 
+> - `protected` - used with *inheritence* 
+- Using these are relatively straight forward. 
+
+## Part 5 - Implementing Member Methods 
+- Class member methods can be implemented in two main ways; 
+> - inside the class declaration (then, explicitly inline)
+> - outside the class declaration (use the syntax `ClassName :: MemberFunction`)
+
+- Typically, the class specification/declaration is kept seperate from the implementation.
+> - class declaration in a header file (.h file)
+> - class implementation in a .cpp file
+
+### Example - Method Implementation inside the Class Declaration
+```
+    class Account {
+        private:
+            // attributes (all private)
+            string name {"John"};
+            double balance {};
+        public:
+            // methods (all public)
+            void set_balance(double bal) {
+                balance = bal;
+            }
+            double get_balance() {
+                return balance;
+            }
+    };
+```
+- Unless all your class member methods definitions are short and simple, this implementation of class methods can be harder to maintain. 
+
+### Example - Method Implmentation outside the Class Declaration
+```
+    class Account {
+        private:
+            // attributes (all private)
+            string name {"John"};
+            double balance {};
+        public:
+            // methods [PUT THE FUNCTION PROTOTYPES HERE] (all public)
+            void set_balance(double bal);
+            double get_balance();
+    };
+
+    void Account::set_balance(double bal) {
+        balance = bal;
+    }
+
+    double Account::get_balance() {
+        return balance;
+    }
+```
+
+- When delcaring the class specification in a .h header file, we have to add **an include guard**. 
+- If multiple .cpp files try to include the same header file, the compiler will raise an error since it has to build the header file multiple times. 
+- To avoid this error, declare the class within an include guard, which builds the class only if it has not been built earlier. 
+```
+#ifndef __ACCOUNT_H__ // this can be any name
+#define __ACCOUNT_H__
+
+// put the above class declaration here... 
+
+#endif // use the previously built __ACCOUNT_H__
+```
+- Typically, the C++ IDEs help you to create a class by automatically generating a header file with the include_guard and a .cpp file with the class name. 
+
+## Part 6 - Class Constructors and Destructors 
+- Both the class constructor and destructor are special member methods of a class. 
+- Both have the same name as the class and have no return type; the difference is that you have to put a tilde symbol (`~`) before the destructor's name. 
+- It is common to use function overloading with constructors; also, one overloaded function with no arguments (no-arg constructor). 
+- Destructor takes no arguments; and no function overloading. 
+- Destructors are called automatically by C++ when the control moves on from a scope or the execution of a function which declares the class object finishes. 
+- When no constructor or destructor is provided in the class declaration, the C++ will use the *default* constructor and destructor, which are empty. 
+- Remember, both the constructor and destructor must be available in the public user interface; therefore, must be declared as public members. 
+
+
+- Take a look at the following sample class declaration. 
+```
+    class Player {
+        private: 
+            string name;
+            int score; 
+            vector<double> xp {}; 
+        public:
+            // constructors
+            Player(); // no-arg
+            Player(string name);
+            Player(string name, int score);
+            // destructor
+            ~Player(); 
+
+            set_name(string s); // a public method to access and set the `name` attribute
+    };
+```
